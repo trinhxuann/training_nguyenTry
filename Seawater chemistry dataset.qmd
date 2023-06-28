@@ -1,0 +1,62 @@
+---
+title: "Literate analysis"
+format: html
+---
+
+## Introduction
+
+### About this data
+
+This dataset contains seawater chemstiry data from the Artic Ocean near the North Pole from 2000-2014. This data was accessed on June 26, 2023 from the [Artic Data Center](https://arcticdata.io/catalog/view/doi:10.18739/A25T3FZ8X).
+
+### Setup
+```{r}
+# libraries
+```
+
+### Reading in data
+```{r}
+#| warning: false
+#| message: false
+
+bgChem <- read.csv("https://arcticdata.io/metacat/d1/mn/v2/object/urn%3Auuid%3A35ad7624-b159-4e29-a700-0c0770419941")
+```
+
+Exploring the data
+
+```{r}
+#| eval: false
+#| echo: false
+
+head(bgChem)
+str(bgChem)
+summary(bgChem)
+```
+
+
+## Analysis
+
+### Calculate summary statistics
+```{r}
+nitrate <- mean(bgChem$NO3)
+nitrite <- mean(bgChem$NO2)
+amm <- mean(bgChem$NH4)
+phos <- mean(bgChem$P)
+```
+
+### Calculate mean Redfield Ratio
+
+```{r}
+ratio <- (nitrate + nitrite + amm)/phos
+```
+
+### Plot Redfield Ratio
+
+```{r}
+plot(bgChem$P, bgChem$NO2 + bgChem$NO3 + bgChem$NH4)
+```
+
+
+## Conclusion
+
+The Redfield Ratio for this dataset is approximately `r round(ratio)`.
